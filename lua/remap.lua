@@ -9,6 +9,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- delete without yanking
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
+-- I have no idea what this does, but prime has it so its cool
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
