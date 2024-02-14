@@ -21,6 +21,7 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
 -- Search
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "#", "#zz")
 
 ---
 -- blindly copied from Primeagen, no idea what these do

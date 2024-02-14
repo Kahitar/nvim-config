@@ -9,7 +9,13 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "tsserver", "pylsp", "gopls" }
+                ensure_installed = {
+                    "lua_ls",
+                    "tsserver",
+                    "pylsp",
+                    "gopls",
+                    "kotlin_language_server",
+                }
             })
         end
     },
@@ -20,6 +26,9 @@ return {
             capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
             local lspconfig = require("lspconfig")
 
+            lspconfig.kotlin_language_server.setup({
+                capabilities = capabilities
+            })
             lspconfig.lua_ls.setup({
                 capabilities = capabilities
             })
