@@ -36,7 +36,16 @@ return {
                 capabilities = capabilities
             })
             lspconfig.pylsp.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pycodestyle = {
+                                maxLineLength = 100
+                            }
+                        }
+                    }
+                }
             })
             lspconfig.gopls.setup({
                 capabilities = capabilities
