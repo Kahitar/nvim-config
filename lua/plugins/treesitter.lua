@@ -10,6 +10,8 @@ return {
                 "javascript",
                 "go",
                 "kotlin",
+                "typescript",
+                "vue",
             },
             highlight = { enable = true },
             indent = { enable = true },

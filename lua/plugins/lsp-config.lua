@@ -8,14 +8,29 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         config = function()
-            require("mason-lspconfig").setup({
+            local mason_lsp = require("mason-lspconfig")
+            mason_lsp.setup({
                 ensure_installed = {
                     "lua_ls",
-                    "tsserver",
                     "pylsp",
                     "gopls",
                     "kotlin_language_server",
+                    -- "tsserver", -- don't user together with volar, so volar takes over typescript
+                    -- "vuels", -- vue 2 language server
+                    "volar", -- vue 3 language server
                 }
+            })
+            local lspconfig = require("lspconfig")
+            mason_lsp.setup_handlers({
+                function(server_name)
+                    local server_config = {}
+                    if server_name == 'volar' then
+                        filetypes = { 'vue', 'typescript', 'javascript' }
+                    end
+                    lspconfig[server_name].setup(
+                        server_config
+                    )
+                end,
             })
         end
     },
@@ -29,6 +44,10 @@ return {
             lspconfig.kotlin_language_server.setup({
                 capabilities = capabilities
             })
+            lspconfig.volar.setup({
+                capabilities = capabilities,
+                filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
+            })
             lspconfig.lua_ls.setup({
                 capabilities = capabilities
             })
@@ -41,7 +60,7 @@ return {
                     pylsp = {
                         plugins = {
                             pycodestyle = {
-                                maxLineLength = 100
+                                maxLineLength = 120
                             }
                         }
                     }
