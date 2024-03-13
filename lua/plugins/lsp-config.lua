@@ -16,9 +16,11 @@ return {
                     "kotlin_language_server",
                     -- Don't user together with volar, so volar takes over typescript,
                     --  see https://theosteiner.de/using-volars-takeover-mode-in-neovims-native-lsp-client
-                    -- "tsserver", 
-                    -- "volar", -- vue 3 language server
-                    "vuels", -- vue 2 language server
+                    --  This is not true anymore for volar > v2.x -> see comment below to upgrade it
+                    -- "tsserver",
+                    -- If you want to update to v2.x, remember that tsserver (or similar?) and a plugin for 
+                    -- that is needed. See https://github.com/vuejs/language-tools/issues/3925
+                    "volar@1.8.0", -- vue 3 language server
                 }
             })
         end
@@ -32,7 +34,7 @@ return {
             local mason_lspconfig = require("mason-lspconfig")
 
             local servers_config = {
-                vuels = {
+                volar = {
                     filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
                 },
                 pylsp = {
