@@ -8,68 +8,53 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         config = function()
-            local mason_lsp = require("mason-lspconfig")
-            mason_lsp.setup({
+            require("mason-lspconfig").setup({
                 ensure_installed = {
                     "lua_ls",
                     "pylsp",
                     "gopls",
                     "kotlin_language_server",
-                    -- "tsserver", -- don't user together with volar, so volar takes over typescript
-                    -- "vuels", -- vue 2 language server
-                    "volar", -- vue 3 language server
+                    -- Don't user together with volar, so volar takes over typescript,
+                    --  see https://theosteiner.de/using-volars-takeover-mode-in-neovims-native-lsp-client
+                    -- "tsserver", 
+                    -- "volar", -- vue 3 language server
+                    "vuels", -- vue 2 language server
                 }
-            })
-            local lspconfig = require("lspconfig")
-            mason_lsp.setup_handlers({
-                function(server_name)
-                    local server_config = {}
-                    if server_name == 'volar' then
-                        filetypes = { 'vue', 'typescript', 'javascript' }
-                    end
-                    lspconfig[server_name].setup(
-                        server_config
-                    )
-                end,
             })
         end
     },
     {
         "neovim/nvim-lspconfig",
         config = function()
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+            local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+            default_capabilities = require('cmp_nvim_lsp').default_capabilities(default_capabilities)
             local lspconfig = require("lspconfig")
+            local mason_lspconfig = require("mason-lspconfig")
 
-            lspconfig.kotlin_language_server.setup({
-                capabilities = capabilities
-            })
-            lspconfig.volar.setup({
-                capabilities = capabilities,
-                filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
-            })
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities
-            })
-            lspconfig.tsserver.setup({
-                capabilities = capabilities
-            })
-            lspconfig.pylsp.setup({
-                capabilities = capabilities,
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            pycodestyle = {
-                                maxLineLength = 120
+            local servers_config = {
+                vuels = {
+                    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
+                },
+                pylsp = {
+                    settings = {
+                        pylsp = {
+                            plugins = {
+                                pycodestyle = {
+                                    maxLineLength = 120
+                                }
                             }
                         }
                     }
-                }
-            })
-            lspconfig.gopls.setup({
-                capabilities = capabilities
-            })
+                },
+            }
 
+            mason_lspconfig.setup_handlers({
+                function(server_name)
+                    local server_config = servers_config[server_name] or {}
+                    server_config.capabilities = default_capabilities
+                    lspconfig[server_name].setup(server_config)
+                end,
+            })
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
             vim.keymap.set('n', 'gr', vim.lsp.buf.references, {})
