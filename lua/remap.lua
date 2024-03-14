@@ -28,6 +28,12 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "#", "#zz")
 
+-- Manage tabs
+vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", {desc = "new tab"})
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>", {desc = "close tab"})
+vim.keymap.set("n", "<leader>tl", "<cmd>tabn<CR>", {desc = "next tab"})
+vim.keymap.set("n", "<leader>th", "<cmd>tabp<CR>", {desc = "previous tab"})
+
 -- 
 vim.keymap.set("n", "<leader>q", "<cmd>%!jq .<CR>")
 
