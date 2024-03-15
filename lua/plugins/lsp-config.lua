@@ -1,3 +1,38 @@
+-- Custom function to send the volar/client/findFileReference request
+function FindVueFileReferences()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local uri = vim.uri_from_bufnr(bufnr)
+
+    -- Check if the current buffer is a Vue.js file
+    local filetype = vim.bo.filetype
+    if filetype ~= 'vue' then
+        vim.notify("This command can only be used in Vue.js files.", vim.log.levels.WARN)
+        return
+    end
+
+    vim.lsp.buf_request(bufnr, 'volar/client/findFileReference', { textDocument = { uri = uri } }, function(err, result, ctx, config)
+        if err then
+            vim.notify("Error finding references: " .. vim.inspect(err), vim.log.levels.ERROR)
+        else
+            -- Convert the result to quickfix items
+            local items = {}
+            for _, ref in ipairs(result) do
+                table.insert(items, {
+                    filename = vim.uri_to_fname(ref.uri),
+                    lnum = ref.range.start.line + 1,
+                    col = ref.range.start.character + 1,
+                    text = 'Reference'
+                })
+            end
+            -- Populate the quickfix
+            vim.fn.setqflist(items)
+            -- Open the quickfix window
+            -- vim.cmd('copen')
+            print("Loaded " .. #items .. " references into quickfix list.")
+        end
+    end)
+end
+
 return {
     {
         "williamboman/mason.nvim",
@@ -63,6 +98,7 @@ return {
             vim.keymap.set('n', 'N', vim.lsp.buf.rename, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>cf', vim.diagnostic.open_float, {})
+            vim.keymap.set('n', 'fr', '<cmd>lua FindVueFileReferences()<CR>', { noremap = true, silent = true })
         end
     },
 }

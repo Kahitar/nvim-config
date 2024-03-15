@@ -34,7 +34,7 @@ vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>", {desc = "close tab"})
 vim.keymap.set("n", "<leader>tl", "<cmd>tabn<CR>", {desc = "next tab"})
 vim.keymap.set("n", "<leader>th", "<cmd>tabp<CR>", {desc = "previous tab"})
 
--- 
+-- Formatting
 vim.keymap.set("n", "<leader>q", "<cmd>%!jq .<CR>")
 
 ---
