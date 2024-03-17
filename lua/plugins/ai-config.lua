@@ -19,13 +19,20 @@ return {
             "nvim-telescope/telescope.nvim"
         },
         config = function()
-            local get_key_cmd_str = "bash -c 'source $HOME/.bash_functions && secret NiklasPersonalSecrets ChatGPT-Personal-Neovim-Key'"
             local get_api_key = function()
-                return io.popen(get_key_cmd_str):read("*a")
+                local get_key_cmd_str = ""
+                if package.config:sub(1,1) == "\\" then
+                    -- Command string for windows
+                    get_key_cmd_str = "az keyvault secret show --vault-name NiklasPersonalSecrets -n ChatGPT-Personal-Neovim-Key | jq .value"
+                else
+                    -- Command string for linux
+                    get_key_cmd_str = "bash -c 'source /c/users/user/.bash_functions && secret NiklasPersonalSecrets ChatGPT-Personal-Neovim-Key'"
+                end
+                local api_key = io.popen(get_key_cmd_str):read("*all")
+                return api_key:gsub('^%s*"', ''):gsub('"%s*$', ''):gsub("\n", "")
             end
-            local api_key = get_api_key()
             require("chatgpt").setup({
-                api_key_cmd = "echo " .. api_key:gsub('^%s*"', ''):gsub('"%s*$', ''):gsub("\n", ""),
+                api_key_cmd =  "echo " .. get_api_key(),
                 yank_register = "+",
                 edit_with_instructions = {
                     diff = false,
