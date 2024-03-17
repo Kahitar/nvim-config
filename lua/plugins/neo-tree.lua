@@ -9,7 +9,6 @@ return {
         },
         config = function()
             vim.keymap.set('n', '<leader>n', ':Neotree toggle<CR>')
-            vim.keymap.set('n', '<leader>pv', ':Neotree position=current<CR>')
             vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>')
         end
     }

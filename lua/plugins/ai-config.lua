@@ -1,10 +1,3 @@
-WELCOME_MESSAGE = [[
- 
-     If you don't ask the right questions,
-        you don't get the right answers.
-                                      ~ Robert Half
-]]
-
 return {
     {
         "github/copilot.vim",
@@ -49,7 +42,11 @@ return {
                     },
                 },
                 chat = {
-                    welcome_message = WELCOME_MESSAGE,
+                    welcome_message = [[
+     If you don't ask the right questions,
+        you don't get the right answers.
+                                      ~ Robert Half
+]],
                     loading_text = "Loading, please wait ...",
                     question_sign = "", -- 🙂
                     answer_sign = "ﮧ", -- 🤖
