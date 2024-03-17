@@ -11,16 +11,17 @@ return {
     },
     {
         "jackMort/ChatGPT.nvim",
-        -- event = "VeryLazy",
-        -- dependencies = {
-        --     "MunifTanjim/nui.nvim",
-        --     "nvim-lua/plenary.nvim",
-        --     "folke/trouble.nvim",
-        --     "nvim-telescope/telescope.nvim"
-        -- },
+        event = "VeryLazy",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            "folke/trouble.nvim",
+            "nvim-telescope/telescope.nvim"
+        },
         config = function()
+            local api_key_cmd = io.popen('bash -c "source $HOME/.bash_aliases && secret NiklasPersonalSecrets ChatGPT-Personal-Neovim-Key"'):read("*a")
             require("chatgpt").setup({
-                api_key_cmd = "secret NiklasPersonalSecrets ChatGPT-Personal-Neovim-Key",
+                api_key_cmd = api_key_cmd,
                 yank_register = "+",
                 edit_with_instructions = {
                     diff = false,
