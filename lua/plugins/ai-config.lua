@@ -7,7 +7,9 @@ WELCOME_MESSAGE = [[
 
 return {
     {
-        "github/copilot.vim"
+        "github/copilot.vim",
+        config = function()
+        end
     },
     {
         "jackMort/ChatGPT.nvim",

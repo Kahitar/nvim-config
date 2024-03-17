@@ -11,9 +11,4 @@ return {
             require('fidget').setup({})
         end
     },
-    {
-        "github/copilot.vim",
-        config = function()
-        end
-    },
 }
