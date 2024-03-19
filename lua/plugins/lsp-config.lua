@@ -1,4 +1,3 @@
--- Custom function to send the volar/client/findFileReference request
 function FindVueFileReferences()
     local bufnr = vim.api.nvim_get_current_buf()
     local uri = vim.uri_from_bufnr(bufnr)
@@ -10,9 +9,12 @@ function FindVueFileReferences()
         return
     end
 
+    print("Finding references for " .. uri .. "[" .. bufnr .. "]")
+
     vim.lsp.buf_request(bufnr, 'volar/client/findFileReference', { textDocument = { uri = uri } }, function(err, result, ctx, config)
         if err then
-            vim.notify("Error finding references: " .. vim.inspect(err), vim.log.levels.ERROR)
+            -- print("ERR:", vim.inspect(err))
+            -- vim.notify("Error finding references: " .. vim.inspect(err), vim.log.levels.ERROR)
         else
             -- Convert the result to quickfix items
             local items = {}
