@@ -50,6 +50,8 @@ return {
                 local api_key = io.popen(get_key_cmd_str):read("*all")
                 return api_key:gsub('^%s*"', ''):gsub('"%s*$', ''):gsub("\n", "")
             end
+            vim.keymap.set("n", "<leader>gp", '<cmd>ChatGPT<CR>')
+            vim.keymap.set("v", "<leader>gp", '<cmd>ChatGPTEditWithInstructions<CR>')
             require("chatgpt").setup({
                 api_key_cmd =  "echo " .. get_api_key(),
                 yank_register = "+",
