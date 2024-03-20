@@ -38,14 +38,21 @@ return {
             "nvim-telescope/telescope.nvim"
         },
         config = function()
-            local get_api_key = function()
-                -- Get key from .env file
-                return ""
+            local get_env_value = function(key)
+                local env_path = vim.fn.stdpath('config') .. '\\.env'
+                local env_contents = {}
+                for line in io.lines(env_path) do
+                    local k, v = line:match("^([^=]+)=(.+)$")
+                    if k and v then
+                        env_contents[k] = v:match("^%s*(.-)%s*$")
+                    end
+                end
+                return env_contents[key]
             end
             vim.keymap.set("n", "<leader>gp", '<cmd>ChatGPT<CR>')
             vim.keymap.set("v", "<leader>gp", '<cmd>ChatGPTEditWithInstructions<CR>')
             require("chatgpt").setup({
-                api_key_cmd =  "echo " .. get_api_key(),
+                api_key_cmd =  "echo " .. get_env_value("OPENAI_API_KEY"),
                 api_host_cmd = 'echo -n ""',
                 api_type_cmd = 'echo azure',
                 azure_api_base_cmd = 'echo https://genai-nexus.api.corpinter.net/apikey/',
@@ -204,7 +211,7 @@ return {
                     model = "gpt4-turbo",
                     frequency_penalty = 0,
                     presence_penalty = 0,
-                    max_tokens = 300,
+                    max_tokens = 3000,
                     temperature = 0,
                     top_p = 1,
                     n = 1,
