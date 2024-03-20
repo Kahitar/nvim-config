@@ -39,16 +39,8 @@ return {
         },
         config = function()
             local get_api_key = function()
-                local get_key_cmd_str = ""
-                if package.config:sub(1,1) == "\\" then
-                    -- Command string for windows
-                    get_key_cmd_str = "az keyvault secret show --vault-name NiklasPersonalSecrets -n ChatGPT-Personal-Neovim-Key | jq .value"
-                else
-                    -- Command string for linux
-                    get_key_cmd_str = "bash -c 'source /c/users/user/.bash_functions && secret NiklasPersonalSecrets ChatGPT-Personal-Neovim-Key'"
-                end
-                local api_key = io.popen(get_key_cmd_str):read("*all")
-                return api_key:gsub('^%s*"', ''):gsub('"%s*$', ''):gsub("\n", "")
+                -- Get key from .env file
+                return ""
             end
             vim.keymap.set("n", "<leader>gp", '<cmd>ChatGPT<CR>')
             vim.keymap.set("v", "<leader>gp", '<cmd>ChatGPTEditWithInstructions<CR>')
@@ -56,9 +48,9 @@ return {
                 api_key_cmd =  "echo " .. get_api_key(),
                 api_host_cmd = 'echo -n ""',
                 api_type_cmd = 'echo azure',
-                azure_api_base_cmd = 'echo https://{your-resource-name}.openai.azure.com',
-                azure_api_engine_cmd = 'echo chat',
-                azure_api_version_cmd = 'echo 2023-05-15',
+                azure_api_base_cmd = 'echo https://genai-nexus.api.corpinter.net/apikey/',
+                azure_api_engine_cmd = 'echo gpt4-turbo',
+                -- azure_api_version_cmd = 'echo 2023-05-15',
                 yank_register = "+",
                 edit_with_instructions = {
                     diff = false,
@@ -209,7 +201,7 @@ return {
                     },
                 },
                 openai_params = {
-                    model = "gpt-3.5-turbo",
+                    model = "gpt4-turbo",
                     frequency_penalty = 0,
                     presence_penalty = 0,
                     max_tokens = 300,
@@ -218,7 +210,7 @@ return {
                     n = 1,
                 },
                 openai_edit_params = {
-                    model = "gpt-4",
+                    model = "gpt4-turbo",
                     frequency_penalty = 0,
                     presence_penalty = 0,
                     temperature = 0,
