@@ -39,9 +39,8 @@ vim.keymap.set("n", "<leader>th", "<cmd>tabp<CR>", {desc = "previous tab"})
 -- Formatting
 vim.keymap.set("n", "<leader>q", "<cmd>%!jq .<CR>")
 
----
--- blindly copied from Primeagen, no idea what these do
---
+-- Neovim development
+vim.keymap.set("n", "<leader>m", "<cmd>messages<CR>")
 
--- greatest remap ever
+-- greatest remap ever (according to primeagen - no idea what this does)
 vim.keymap.set("x", "<leader>p", [["_dP]])
