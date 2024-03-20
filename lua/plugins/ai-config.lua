@@ -38,21 +38,11 @@ return {
             "nvim-telescope/telescope.nvim"
         },
         config = function()
-            local get_env_value = function(key)
-                local env_path = vim.fn.stdpath('config') .. '\\.env'
-                local env_contents = {}
-                for line in io.lines(env_path) do
-                    local k, v = line:match("^([^=]+)=(.+)$")
-                    if k and v then
-                        env_contents[k] = v:match("^%s*(.-)%s*$")
-                    end
-                end
-                return env_contents[key]
-            end
             vim.keymap.set("n", "<leader>gp", '<cmd>ChatGPT<CR>')
             vim.keymap.set("v", "<leader>gp", '<cmd>ChatGPTEditWithInstructions<CR>')
+            local dotenv = require("util.dotenv")
             require("chatgpt").setup({
-                api_key_cmd =  "echo " .. get_env_value("OPENAI_API_KEY"),
+                api_key_cmd =  "echo " .. dotenv.get_env_value("OPENAI_API_KEY"),
                 api_host_cmd = 'echo -n ""',
                 api_type_cmd = 'echo azure',
                 azure_api_base_cmd = 'echo https://genai-nexus.api.corpinter.net/apikey/',
