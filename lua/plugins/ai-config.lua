@@ -29,8 +29,8 @@ return {
         }
     },
     {
-        "jackMort/ChatGPT.nvim",
-        event = "VeryLazy",
+        "Kahitar/ChatGPT.nvim",
+        dir = "C:/dev/nvim/ChatGPT.nvim",
         dependencies = {
             "MunifTanjim/nui.nvim",
             "nvim-lua/plenary.nvim",
