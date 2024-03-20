@@ -54,6 +54,11 @@ return {
             vim.keymap.set("v", "<leader>gp", '<cmd>ChatGPTEditWithInstructions<CR>')
             require("chatgpt").setup({
                 api_key_cmd =  "echo " .. get_api_key(),
+                api_host_cmd = 'echo -n ""',
+                api_type_cmd = 'echo azure',
+                azure_api_base_cmd = 'echo https://{your-resource-name}.openai.azure.com',
+                azure_api_engine_cmd = 'echo chat',
+                azure_api_version_cmd = 'echo 2023-05-15',
                 yank_register = "+",
                 edit_with_instructions = {
                     diff = false,
