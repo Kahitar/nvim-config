@@ -28,8 +28,8 @@ function FindVueFileReferences()
             end
             -- Populate the quickfix
             vim.fn.setqflist(items)
-            -- Open the quickfix window
-            -- vim.cmd('copen')
+            -- Open the quickfix telescope window
+            vim.cmd('Telescope quickfix')
             print("Loaded " .. #items .. " references into quickfix list.")
         end
     end)
