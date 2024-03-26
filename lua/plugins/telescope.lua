@@ -8,6 +8,7 @@ return {
             vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
             vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
             vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+            vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
         end
     },
     {

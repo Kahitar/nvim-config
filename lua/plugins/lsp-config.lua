@@ -19,6 +19,7 @@ function FindVueFileReferences()
             -- Convert the result to quickfix items
             local items = {}
             for _, ref in ipairs(result) do
+                print(vim.inspect(ref))
                 table.insert(items, {
                     filename = vim.uri_to_fname(ref.uri),
                     lnum = ref.range.start.line + 1,
@@ -95,7 +96,7 @@ return {
                 end,
             })
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
+            -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
             vim.keymap.set('n', 'gr', vim.lsp.buf.references, {})
             vim.keymap.set('n', 'N', vim.lsp.buf.rename, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
